@@ -20,7 +20,7 @@ app.use(require('./middleware/headers'));
 app.use("/user", controllers.userController);
 app.use(cors());
 
-//app.use(require("./middleware/validate-jwt"));
+// app.use(require("./middleware/validate-jwt"));
 app.use("/log", controllers.logController);
 
 
