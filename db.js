@@ -1,5 +1,5 @@
-const {Sequelize} = require('sequelize');
+const Sequelize = require('sequelize');
 
-const db = new Sequelize("postgres://postgres:PASSWORDHERE@localhost:5432/workout-log");
+const sequelize = new Sequelize("postgres://postgres:YOURPASSWORDHERE@localhost:5432/event-log");
 
-module.exports = db;
+module.exports = sequelize;

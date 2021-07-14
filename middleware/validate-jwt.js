@@ -13,28 +13,28 @@ const validateJWT = async (req, res, next) => {
         const payload = authorization
             ? jwt.verify(
                 authorization.includes("Bearer")
-                ? authorization.split(" ")[1]
-                : authorization,
+                    ? authorization.split(" ")[1]
+                    : authorization,
                 process.env.JWT_SECRET
             )
             : undefined;
-            
-            // console.log("payload -->", payload); FOR TESTING
 
-            if (payload) {
-                let foundUser = await UserModel.findOne({ where: { id: payload.id } });
-                // console.log("foundUser -->", foundUser); FOR TESTING
+        // console.log("payload -->", payload); FOR TESTING
 
-                if (foundUser) {
-                    // console.log("request -->", req); FOR TESTING
-                    req.user = foundUser;
-                    next();
-                } else {
-                    res.status(400).send({ message: "Not Authorized" });
-                }
+        if (payload) {
+            let foundUser = await UserModel.findOne({ where: { id: payload.id } });
+            // console.log("foundUser -->", foundUser); FOR TESTING
+
+            if (foundUser) {
+                // console.log("request -->", req); FOR TESTING
+                req.user = foundUser;
+                next();
             } else {
-                res.status(401).send({ message: "Invalid token" });
+                res.status(400).send({ message: "Not Authorized" });
             }
+        } else {
+            res.status(401).send({ message: "Invalid token" });
+        }
     } else {
         res.status(403).send({ message: "Forbidden" });
     }
