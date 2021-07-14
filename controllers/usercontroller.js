@@ -14,8 +14,8 @@ router.post("/register", async (req, res) => {
             password: bcrypt.hashSync(password, 13),
         });
 
-        let token = jwt.sign({id: User.id, username: User.username}, process.env.JWT_SECRET, {expiresIn: '7d'});
-    
+        let token = jwt.sign({ id: User.id }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 24 * 7 });
+
         res.status(201).json({
             message: "User successfully registered",
             user: User,
@@ -31,7 +31,7 @@ router.post("/register", async (req, res) => {
                 message: "Failed to register user",
             });
         }
-    }   
+    }
 });
 
 // Login endpoint
@@ -51,7 +51,7 @@ router.post("/login", async (req, res) => {
             let passwordComparison = await bcrypt.compare(password, loginUser.password);
 
             if (passwordComparison) {
-                let token = jwt.sign({id: loginUser.id}, process.env.JWT_SECRET, {expiresIn: '7d'});
+                let token = jwt.sign({ id: loginUser.id }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 24 * 7 });
 
                 res.status(200).json({
                     user: loginUser,
@@ -60,12 +60,12 @@ router.post("/login", async (req, res) => {
                 });
             } else {
                 res.status(401).json({
-                    message: "Incorrect email or password"
+                    message: "Incorrect username or password"
                 });
             }
         } else {
             res.status(401).json({
-                message: "Incorrect email or password"
+                message: "Incorrect username or password"
             });
         }
     } catch (error) {
@@ -73,7 +73,6 @@ router.post("/login", async (req, res) => {
             message: "Failed to log user in."
         })
     }
-    
 });
 
 module.exports = router;
