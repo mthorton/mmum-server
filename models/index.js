@@ -1,4 +1,7 @@
+const UserModel = require('./user');
+const LogModel = require("./log");
+
 module.exports = {
-    userController: require('./userController'),
-    logController: require("./logController"),
+    UserModel,
+    LogModel
 };

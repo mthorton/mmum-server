@@ -7,7 +7,7 @@ const Log = db.define("log", {
         allowNull: false,
     },
     title: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING,
         allowNull: false,
     },
     date: {
@@ -18,10 +18,9 @@ const Log = db.define("log", {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-    // owner_id: {
-    //     type: DataTypes.INTEGER,
-    //     allowNull: false,
-    // },
+    owner: {
+        type: DataTypes.INTEGER,
+    }
 });
 
 module.exports = Log;
