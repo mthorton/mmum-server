@@ -51,7 +51,7 @@ router.get("/mine", validateJWT, async (req, res) => {
 
 // Update an event
 router.put("/update/:id", validateJWT, async (req, res) => {
-    const { description, title, date, location } = req.body.journal;
+    const { description, title, date, location } = req.body.log;
     const logId = req.params.entryId;
     const userId = req.user.id;
 
