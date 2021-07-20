@@ -7,15 +7,15 @@ const bcrypt = require("bcryptjs");
 // Register endpoint
 router.post("/register", async (req, res) => {
 
-    let { username, password } = req.body.user;
+    let { username, passwordhash } = req.body.user;
     try {
         const User = await UserModel.create({
             username,
-            password: bcrypt.hashSync(password, 13),
+            passwordhash: bcrypt.hashSync(passwordhash, 13),
         });
 
-        let token = jwt.sign({ id: User.id }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 24 * 7 });
-
+        let token = jwt.sign({id: User.id, username: User.username}, process.env.JWT_SECRET, {expiresIn: '7d'});
+    
         res.status(201).json({
             message: "User successfully registered",
             user: User,
@@ -31,13 +31,13 @@ router.post("/register", async (req, res) => {
                 message: "Failed to register user",
             });
         }
-    }
+    }   
 });
 
 // Login endpoint
 router.post("/login", async (req, res) => {
 
-    let { username, password } = req.body.user;
+    let { username, passwordhash } = req.body.user;
 
     try {
         const loginUser = await UserModel.findOne({
@@ -48,10 +48,10 @@ router.post("/login", async (req, res) => {
 
         if (loginUser) {
 
-            let passwordComparison = await bcrypt.compare(password, loginUser.password);
+            let passwordComparison = await bcrypt.compare(passwordhash, loginUser.passwordhash);
 
             if (passwordComparison) {
-                let token = jwt.sign({ id: loginUser.id }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 24 * 7 });
+                let token = jwt.sign({id: loginUser.id}, process.env.JWT_SECRET, {expiresIn: '7d'});
 
                 res.status(200).json({
                     user: loginUser,
@@ -60,12 +60,12 @@ router.post("/login", async (req, res) => {
                 });
             } else {
                 res.status(401).json({
-                    message: "Incorrect username or password"
+                    message: "Incorrect email or password"
                 });
             }
         } else {
             res.status(401).json({
-                message: "Incorrect username or password"
+                message: "Incorrect email or password"
             });
         }
     } catch (error) {
@@ -73,6 +73,7 @@ router.post("/login", async (req, res) => {
             message: "Failed to log user in."
         })
     }
+    
 });
 
 module.exports = router;

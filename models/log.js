@@ -2,25 +2,26 @@ const { DataTypes } = require("sequelize");
 const db = require("../db");
 
 const Log = db.define("log", {
-    description: {
+    title: {
         type: DataTypes.STRING(100),
         allowNull: false,
     },
-    title: {
-        type: DataTypes.STRING,
+    definition: {
+        type: DataTypes.STRING(100),
         allowNull: false,
     },
     date: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING(100),
         allowNull: false,
     },
     location: {
+        type: DataTypes.STRING(100),
+        allowNull: false,
+    },
+    owner_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-    owner: {
-        type: DataTypes.INTEGER,
-    }
 });
 
 module.exports = Log;
