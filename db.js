@@ -1,5 +1,8 @@
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize("postgres://postgres:YourPasswordHere@localhost:5432/event-log");
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect: 'postgres',
+    ssl: process.env.ENVIRONMENT === 'production'
+})
 
 module.exports = sequelize;

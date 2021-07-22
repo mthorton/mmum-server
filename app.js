@@ -11,21 +11,17 @@ app.use('/test', (req, res) => {
   res.send('This is a message from the test endpoint on the server!')
 });
 
-// middleware function. Allows req.body. Must go above all other routes. 
 app.use(Express.json());
 
 app.use("/user", controllers.userController);
 
-// app.use(require("./middleware/validate-jwt"));
 app.use("/log", controllers.logController);
 
 dbConnection.authenticate()
   .then(() => dbConnection.sync())
   .then(() => {
-    app.listen(3000, () => {
-      console.log(`[Server]: App is listening on Port 3000.`);
-    });
+    app.listen(process.env.PORT, () => console.log(`[Server]: App is listening on ${process.env.PORT}`));
   })
   .catch((err) => {
-    console.log(`[Server]: Server Crashed. Error = ${err}`);
+    console.log(`[Server]: Server Crashed. ${err}`);
   });
