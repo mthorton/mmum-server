@@ -26,11 +26,8 @@ db.authenticate()
   .then(() => db.sync()) // => {force: true} // used to generate new table when adding columns.
   //.then(() => db.sync({ force: true})) 
   .then(() => {
-    app.listen(3000, () =>
-      console.log(`[Server: ] App is listening on Port ${3000}`)
-    );
+    app.listen(process.env.PORT, () => console.log(`[Server]: App is listening on ${process.env.PORT}`));
   })
   .catch((err) => {
-    console.log("[Server: ] Server Crashed");
-    console.error(err);
+    console.log(`[Server]: Server Crashed. ${err}`);
   });
