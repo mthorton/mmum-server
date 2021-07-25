@@ -2,19 +2,19 @@ const { DataTypes } = require("sequelize");
 const db = require("../db");
 
 const Log = db.define("log", {
-    title: {
-        type: DataTypes.STRING(100),
-        allowNull: false,
-    },
-    definition: {
-        type: DataTypes.STRING(100),
-        allowNull: false,
-    },
     date: {
         type: DataTypes.STRING(100),
         allowNull: false,
     },
+    title: {
+        type: DataTypes.STRING(100),
+        allowNull: false,
+    },
     location: {
+        type: DataTypes.STRING(100),
+        allowNull: false,
+    },
+    definition: {
         type: DataTypes.STRING(100),
         allowNull: false,
     },
