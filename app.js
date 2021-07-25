@@ -7,8 +7,7 @@ const db = require("./db"); // connects to database
 
 const controllers = require("./controllers");
 
-// middleware function. Allows req.body. Must go above all other routes. 
-app.use(Express.json()); 
+app.use(Express.json());
 
 app.use(require('./middleware/headers'));
 
