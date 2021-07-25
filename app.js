@@ -19,8 +19,8 @@ app.use(cors());
 
 app.use("/log", controllers.logController);
 
-dbConnection.authenticate()
-  .then(() => dbConnection.sync()) 
+db.authenticate()
+  .then(() => db.sync()) 
   .then(() => {
     app.listen(process.env.PORT, () => console.log(`[Server]: App is listening on ${process.env.PORT}`));
   })
