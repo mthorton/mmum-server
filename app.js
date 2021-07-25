@@ -3,8 +3,6 @@ const Express = require("express"); // api framework
 const cors=require('cors');
 const app = Express();
 
-
-
 const db = require("./db"); // connects to database
 
 const controllers = require("./controllers");
@@ -21,13 +19,11 @@ app.use(cors());
 
 app.use("/log", controllers.logController);
 
-
-db.authenticate()
-  .then(() => db.sync()) // => {force: true} // used to generate new table when adding columns.
-  //.then(() => db.sync({ force: true})) 
+dbConnection.authenticate()
+  .then(() => dbConnection.sync()) 
   .then(() => {
     app.listen(process.env.PORT, () => console.log(`[Server]: App is listening on ${process.env.PORT}`));
   })
   .catch((err) => {
-    console.log(`[Server]: Server Crashed. ${err}`);
+    console.log(`[Server] has crashed: ${err}`);
   });
