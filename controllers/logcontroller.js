@@ -5,13 +5,13 @@ const { LogModel } = require("../models");
 
 // Create log
 router.post("/create", validateJWT, async (req, res) => {
-    const { title, definition, date, location } = req.body.log;
+    const { title, description, date, location } = req.body.log;
     const { id } = req.user;
     const logEntry = {
-        title,
-        definition,
         date,
+        title,
         location,
+        description,
         owner_id: id
     }
     try {
@@ -20,11 +20,10 @@ router.post("/create", validateJWT, async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: err })
     }
-    // LogModel.create(logEntry)
 });
 
 // Get all logs
-router.get("/all", validateJWT, async (req, res) => {
+router.get("/all", async (req, res) => {
     try {
         const entries = await LogModel.findAll();
         res.status(200).json(entries);
@@ -34,7 +33,7 @@ router.get("/all", validateJWT, async (req, res) => {
 });
 
 // Get logs by user_id
-router.get("/all/:id", validateJWT, async (req, res) => {
+router.get("/mine", validateJWT, async (req, res) => {
     const { id } = req.user;
     try {
         const userLog = await LogModel.findAll({
@@ -50,8 +49,8 @@ router.get("/all/:id", validateJWT, async (req, res) => {
 
 // Update a log
 router.put("/update/:id", validateJWT, async (req, res) => {
-    const { title, definition, date, location } = req.body.journal;
-    const logId = req.params.entryId;
+    const { title, description, date, location } = req.body.log;
+    const logId = req.params.id;
     const userId = req.user.id;
 
     const query = {
@@ -63,7 +62,7 @@ router.put("/update/:id", validateJWT, async (req, res) => {
 
     const updatedLog = {
         title: title, 
-        definition: definition,
+        description: description,
         date: date,
         location: location
     };

@@ -7,11 +7,11 @@ const bcrypt = require("bcryptjs");
 // Register endpoint
 router.post("/register", async (req, res) => {
 
-    let { username, passwordhash } = req.body.user;
+    let { username, password } = req.body.user;
     try {
         const User = await UserModel.create({
             username,
-            passwordhash: bcrypt.hashSync(passwordhash, 13),
+            password: bcrypt.hashSync(password, 13),
         });
 
         let token = jwt.sign({id: User.id, username: User.username}, process.env.JWT_SECRET, {expiresIn: '7d'});
@@ -36,10 +36,10 @@ router.post("/register", async (req, res) => {
 
 // Login endpoint
 router.post("/login", async (req, res) => {
-
-    let { username, passwordhash } = req.body.user;
+    let { username, password } = req.body.user;
 
     try {
+        
         const loginUser = await UserModel.findOne({
             where: {
                 username: username,
@@ -47,8 +47,8 @@ router.post("/login", async (req, res) => {
         });
 
         if (loginUser) {
-
-            let passwordComparison = await bcrypt.compare(passwordhash, loginUser.passwordhash);
+            
+            let passwordComparison = await bcrypt.compare(password, loginUser.password);
 
             if (passwordComparison) {
                 let token = jwt.sign({id: loginUser.id}, process.env.JWT_SECRET, {expiresIn: '7d'});

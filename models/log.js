@@ -6,12 +6,12 @@ const Log = db.define("log", {
         type: DataTypes.STRING(100),
         allowNull: false,
     },
-    definition: {
+    description: {
         type: DataTypes.STRING(100),
         allowNull: false,
     },
     date: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING(10),
         allowNull: false,
     },
     location: {

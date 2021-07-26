@@ -1,16 +1,19 @@
 require("dotenv").config();
-const Express = require("express"); // api framework
+const express = require("express"); // api framework
 const cors=require('cors');
-const app = Express();
-
-
-
+const app = express();
+const bodyParser = require('body-parser')
 const db = require("./db"); // connects to database
 
-const controllers = require("./controllers");
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }))
+//app.use(bodyParser.json()) // for parsing application/json
 
 // middleware function. Allows req.body. Must go above all other routes. 
-app.use(Express.json()); 
+app.use(express.json()); 
+
+const controllers = require("./controllers");
 
 app.use(require('./middleware/headers'));
 
@@ -23,7 +26,7 @@ app.use("/log", controllers.logController);
 
 
 db.authenticate()
-  .then(() => db.sync()) // => {force: true} // used to generate new table when adding columns.
+  .then(() => db.sync())
   //.then(() => db.sync({ force: true})) 
   .then(() => {
     app.listen(3000, () =>
