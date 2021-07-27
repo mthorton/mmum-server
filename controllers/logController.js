@@ -24,7 +24,7 @@ router.post("/create", validateJWT, async (req, res) => {
 });
 
 // Get all logs
-router.get("/", async (req, res) => {
+router.get("/all", async (req, res) => {
     try {
         const events = await LogModel.findAll();
         res.status(200).json(events);
@@ -34,7 +34,7 @@ router.get("/", async (req, res) => {
 });
 
 // Get logs by user_id
-router.get("/:id", validateJWT, async (req, res) => {
+router.get("/mine", validateJWT, async (req, res) => {
     const { id } = req.user;
     try {
         const userLog = await LogModel.findAll({
@@ -49,9 +49,9 @@ router.get("/:id", validateJWT, async (req, res) => {
 });
 
 // Update a log
-router.put("/update/:eventId", validateJWT, async (req, res) => {
+router.put("/update/:id", validateJWT, async (req, res) => {
     const { date, title, location, description } = req.body.log;
-    const logId = req.params.eventId;
+    const logId = req.params.id;
     const userId = req.user.id;
 
     const query = {
