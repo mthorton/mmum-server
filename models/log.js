@@ -14,7 +14,7 @@ const Log = db.define("log", {
         type: DataTypes.STRING(100),
         allowNull: false,
     },
-    definition: {
+    description: {
         type: DataTypes.STRING(100),
         allowNull: false,
     },
