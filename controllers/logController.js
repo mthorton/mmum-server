@@ -5,7 +5,11 @@ const { LogModel } = require("../models");
 
 // Create log
 router.post("/create", validateJWT, async (req, res) => {
+<<<<<<< HEAD:controllers/logcontroller.js
     const { title, description, date, location } = req.body.log;
+=======
+    const { date, title, location, description } = req.body.log;
+>>>>>>> a1ddfba2c45c1ed50c16330df2a773727aeddb19:controllers/logController.js
     const { id } = req.user;
     const logEntry = {
         date,
@@ -20,13 +24,17 @@ router.post("/create", validateJWT, async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: err })
     }
+<<<<<<< HEAD:controllers/logcontroller.js
+=======
+    LogModel.create(logEntry)
+>>>>>>> a1ddfba2c45c1ed50c16330df2a773727aeddb19:controllers/logController.js
 });
 
 // Get all logs
 router.get("/all", async (req, res) => {
     try {
-        const entries = await LogModel.findAll();
-        res.status(200).json(entries);
+        const events = await LogModel.findAll();
+        res.status(200).json(events);
     } catch (err) {
         res.status(500).json({ error: err });
     }
@@ -43,13 +51,17 @@ router.get("/mine", validateJWT, async (req, res) => {
         });
         res.status(200).json(userLog);
     } catch (err) {
-        res.status(500).json({ error: err});
+        res.status(500).json({ error: err });
     }
 });
 
 // Update a log
 router.put("/update/:id", validateJWT, async (req, res) => {
+<<<<<<< HEAD:controllers/logcontroller.js
     const { title, description, date, location } = req.body.log;
+=======
+    const { date, title, location, description } = req.body.log;
+>>>>>>> a1ddfba2c45c1ed50c16330df2a773727aeddb19:controllers/logController.js
     const logId = req.params.id;
     const userId = req.user.id;
 
@@ -61,10 +73,15 @@ router.put("/update/:id", validateJWT, async (req, res) => {
     };
 
     const updatedLog = {
+<<<<<<< HEAD:controllers/logcontroller.js
         title: title, 
         description: description,
+=======
+>>>>>>> a1ddfba2c45c1ed50c16330df2a773727aeddb19:controllers/logController.js
         date: date,
-        location: location
+        title: title,
+        location: location,
+        description: description
     };
 
     try {
